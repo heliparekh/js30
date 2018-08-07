@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Reference VS Copy</title>
+</head>
+<body>
+
+  <script>
+    // start with strings, numbers and booleans
+    let age=18;
+    let age1=age;
+    console.log(age,age1);
+    age=20;
+    console.log(age,age1);
+    age1=20;
+    console.log(age,age1);
+
+    let name='heli';
+    let name1=name;
+    console.log(name,name1);
+    name='parekh';
+    console.log(name,name1);
+    name1='parekh';
+    console.log(name,name1);
+
+
+    // Let's say we have an array
+    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+
+    // and we want to make a copy of it.
+    const team=players;
+    console.log(players,team);
+	
+	// however what happens when we update that array?
+     team[3]='lux';
+     console.log(players,team);
+    // now here is the problem!
+	// oh no - we have edited the original array too!
+	// Why? It's because that is an array reference, not an array copy. They both point to the same array!
+	// So, how do we fix this? We take a copy instead!
+
+    // one way
+    const team1=players.slice();
+
+    // or create a new array and concat the old one in
+    const team2=[].concat(players);
+
+    // or use the new ES6 Spread
+    const team3=[...players];
+
+    //array.from function
+    const team4=Array.from(players);
+
+    // with Objects
+    const person = {
+      name: 'Wes Bos',
+      age: 80
+    };
+
+    // and think we make a copy:
+    const captain=person;
+    captain.number=99;
+    console.log(person,captain);
+
+    // how do we take a copy instead?
+    const captain1=Object.assign({},person,{number:100,age:12});
+    console.log(person,captain1);
+
+    // We will hopefully soon see the object ...spread
+    const captain2={...person};
+    console.log(person,captain2);
+    captain2.number=70;
+    console.log(person,captain2);
+
+    // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+	const wes = {
+      name: 'Wes',
+      age: 100,
+      social: {
+        twitter: '@wesbos',
+        facebook: 'wesbos.developer'
+      }
+    };
+	const one=Object.assign({}, wes);
+	console.log(wes,one);
+	one.name='wesley';
+	console.log(wes,one);
+	one.social.twitter='@coolman';//this will not be a copy and reflect in original wes
+	console.log(wes,one);
+
+
+
+
+  </script>
+
+</body>
+</html>
